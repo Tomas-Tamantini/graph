@@ -31,3 +31,8 @@ function draw_edge(edge, style = DRAW_STYLE.DEFAULT) {
   line(n_a.x, n_a.y, n_b.x, n_b.y)
   pop()
 }
+
+function draw_graph(graph) {
+  for (let edge of graph.edges) draw_edge(edge)
+  for (let node of graph.nodes) draw_node(node)
+}
