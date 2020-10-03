@@ -1,12 +1,22 @@
 function setup() {
-  createCanvas(windowWidth / 2, windowHeight / 2)
-  let na = new Node(1, createVector(100, 200))
-  let nb = new Node("a", createVector(200, 100))
-  let e = new Edge(na, nb)
-  g = new Graph([na, nb], [e])
+  cnv = createCanvas(windowWidth / 2, windowHeight / 2)
+  cnv.doubleClicked(mouseDoubleClicked)
+  g = adjacent_primes(5)
 }
 
 function draw() {
   background(51, 56, 66)
   draw_graph(g)
+}
+
+function mousePressed() {
+  console.log("mouse pressed", mouseX, mouseY)
+}
+
+function mouseReleased() {
+  console.log("mouse released", mouseX, mouseY)
+}
+
+function mouseDoubleClicked() {
+  console.log("mouse double clicked", mouseX, mouseY)
 }
