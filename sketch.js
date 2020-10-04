@@ -3,22 +3,22 @@ function setup() {
   canvas.doubleClicked(mouseDoubleClicked)
 
   graph = adjacent_primes(5)
-  mouse_handler = new MouseHandler(graph)
+  graph_ui = new GraphUI(graph)
 }
 
 function draw() {
   background(51, 56, 66)
-  draw_graph(graph, mouse_handler)
+  graph_ui.draw()
 }
 
 function mousePressed() {
-  mouse_handler.mouse_pressed()
+  graph_ui.mouse_pressed()
 }
 
 function mouseReleased() {
-  mouse_handler.mouse_released()
+  graph_ui.mouse_released()
 }
 
 function mouseDoubleClicked() {
-  console.log("mouse double clicked", mouseX, mouseY)
+  graph_ui.mouse_double_clicked()
 }

@@ -19,10 +19,10 @@ function radial_nodes(max_num) {
   return numbers_array.map(num => {
     let angle = (-1 / 2 + (2 * num) / max_num) * Math.PI
     let radius = height / 3
-    let position = createVector(
-      radius * Math.cos(angle) + width / 2,
-      radius * Math.sin(angle) + height / 2
-    )
+    let position = {
+      x: radius * Math.cos(angle) + width / 2,
+      y: radius * Math.sin(angle) + height / 2,
+    }
     return new Node(num + 1, position)
   })
 }
