@@ -12,6 +12,7 @@ class GraphUI {
     this._reset_path()
     this._drag_handler = new DragHandler()
     this._waiting_for_path_input = false
+    this._path_str = this._graph.path_str
   }
 
   _get_node_obj(search_node) {
@@ -36,6 +37,7 @@ class GraphUI {
   }
 
   _update_path(new_path) {
+    this._remove_wait_path_input()
     this._reset_path()
     for (let i = 0; i < new_path.length; i++) {
       let current_node = new_path[i]
@@ -50,32 +52,40 @@ class GraphUI {
         throw "Unexpected error. Nodes in model and UI aren't in sync?"
       edge.is_on_path = true
     }
+    this._path_str = this._graph.path_str
   }
 
   _draw_node(node, options, style = DRAW_STYLE.DEFAULT) {
-    let { is_on_path } = options
+    let { is_on_path, is_possible_edge, waiting_for_path_input } = options
 
     push()
+    stroke(0, 165, 255)
+    fill("#ffae19")
     if (is_on_path) {
       strokeWeight(3)
-      stroke(0, 0, 255)
+      if (is_possible_edge) {
+        stroke("#c724b1")
+      } else stroke("#f5dd29")
+    } else if (waiting_for_path_input) {
+      stroke("#c724b1")
     }
     translate(node.position.x, node.position.y)
     let radius = 18
     switch (style) {
       case DRAW_STYLE.HOVER:
         radius = 20
+
         break
       case DRAW_STYLE.DRAG:
-        fill(0, 255, 0)
+        fill("#34d81d")
         break
       default:
         break
     }
     ellipse(0, 0, radius)
 
-    fill(0)
-    stroke(0)
+    fill("#0a1172")
+    stroke("#0a1172")
     strokeWeight(1)
     let lbl = node.label + ""
     let off_y = radius / 4.5
@@ -87,9 +97,10 @@ class GraphUI {
   _draw_edge(edge, options) {
     let { is_on_path } = options
     push()
+    stroke(0, 165, 255)
     if (is_on_path) {
       strokeWeight(3)
-      stroke(0, 0, 255)
+      stroke("#f5dd29")
     }
     let { start, end } = edge.position
 
@@ -121,10 +132,24 @@ class GraphUI {
     }
   }
 
+  _write_path() {
+    let txt = this._path_str
+    let txt_width = textWidth(txt)
+
+    push()
+    stroke(220)
+    fill(220)
+    textSize(18)
+    translate((width - txt_width) / 2, (height * 19) / 20)
+    text(txt, 0, 0)
+    pop()
+  }
+
   draw() {
     this._drag_handler.update_node_position()
     this._draw_edges()
     this._draw_nodes()
+    this._write_path()
   }
 
   _node_mouse_over() {
@@ -137,18 +162,49 @@ class GraphUI {
     }
     return null
   }
+  _remove_wait_path_input() {
+    this._waiting_for_path_input = false
+    for (let node of this._nodes) {
+      delete node.waiting_for_path_input
+      delete node.is_possible_edge
+    }
+  }
+
+  _add_disambiguated_path(edge_node) {
+    let node_waiting_input
+    for (let node_obj of this._nodes) {
+      if (node_obj.waiting_for_path_input) {
+        node_waiting_input = node_obj.node
+        break
+      }
+    }
+    let response = this._graph.try_add_to_path(node_waiting_input, edge_node)
+    if (response.added) this._update_path(response.new_path)
+  }
 
   mouse_pressed() {
     //TODO: Check if is waiting for path input here. Otherwise, it's a drag command, coded below
+    let node
+    if (this._waiting_for_path_input) {
+      node = this._node_mouse_over()
+      if (node !== null) {
+        let node_obj = this._get_node_obj(node)
+        if (node_obj.is_possible_edge) {
+          this._add_disambiguated_path(node)
+        }
+      }
+      this._remove_wait_path_input()
+    }
+
     if (this._drag_handler.node_being_dragged !== null) return
-    let node = this._node_mouse_over()
+
+    node = this._node_mouse_over()
     if (node === null) return
     this._drag_handler.drag_node(node)
   }
 
   mouse_released() {
     this._drag_handler.release_node()
-    //TODO: Check if is waiting for path input here
   }
 
   mouse_double_clicked() {
@@ -165,10 +221,15 @@ class GraphUI {
       let response = this._graph.try_add_to_path(node)
       if (response.added) this._update_path(response.new_path)
       else {
-        if ((response.msg = "Two possible connections")) {
+        if (response.msg === "Two possible connections") {
           let { first_node, last_node } = response
-          console.log(first_node, last_node)
           this._waiting_for_path_input = true
+          node_obj.waiting_for_path_input = true
+          let first_node_obj = this._get_node_obj(first_node)
+          let second_node_obj = this._get_node_obj(last_node)
+
+          first_node_obj.is_possible_edge = true
+          second_node_obj.is_possible_edge = true
         }
       }
     }

@@ -13,6 +13,15 @@ class Graph {
     return this._edges
   }
 
+  get path_str() {
+    let out = ""
+    for (let node of this._path) {
+      if (out.length > 0) out += "; "
+      out += node.label + ""
+    }
+    return out
+  }
+
   _are_connected(node_a, node_b) {
     for (let edge of this._edges) {
       if (edge.connects(node_a, node_b)) return true
@@ -38,7 +47,7 @@ class Graph {
     return { removed: false, msg: "New node is not on either edge of path" }
   }
 
-  try_add_to_path(new_node) {
+  try_add_to_path(new_node, edge_node = null) {
     if (!this._nodes.includes(new_node))
       return { added: false, msg: "New node is not on graph" }
 
@@ -54,10 +63,20 @@ class Graph {
     let last_node = this._path[this._path.length - 1]
     let may_append_at_end = this._are_connected(new_node, last_node)
 
+    if (may_append_at_end && edge_node === last_node) {
+      this._path.push(new_node)
+      return { added: true, new_path: [...this._path] }
+    }
+
     let may_append_at_start = false
     if (this._path.length > 1) {
       first_node = this._path[0]
       may_append_at_start = this._are_connected(new_node, first_node)
+    }
+
+    if (may_append_at_start && edge_node === first_node) {
+      this._path.unshift(new_node)
+      return { added: true, new_path: [...this._path] }
     }
 
     if (may_append_at_end && !may_append_at_start) {
