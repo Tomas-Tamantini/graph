@@ -3,6 +3,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow-x: hidden;
+  background-image: linear-gradient(to right, rgb(34, 37, 44), rgb(51, 56, 66));
+  color: rgb(161, 179, 196);
 }
 canvas {
   margin: auto;

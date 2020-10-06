@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Adjacent primes</title>
+    <title>Prime pairs</title>
 
     <link rel="stylesheet" href="style.css" />
 
@@ -19,10 +19,26 @@
     <script src="models/path.js"></script>
     <script src="gui/graph_ui.js"></script>
     <script src="gui/drag_handler.js"></script>
-    <script src="examples/adjacent_primes.js"></script>
+    <script src="examples/prime_pairs.js"></script>
   </head>
   <body>
     <div id="sketch-holder"></div>
-    <h1>Title here</h1>
+    <h1>Prime pairs</h1>
+    <p>
+      This web application was created to solve the puzzle proposed by Matt
+      Parker on his video:
+      <a href="https://www.youtube.com/watch?v=AXfl_e33Gt4">
+        MPMP: Prime Pairs Puzzle</a
+      >
+    </p>
+    <p>
+      The goal is to find a path that goes through all nodes, each of them only
+      once.
+    </p>
+    <p>
+      Two nodes are connected in the graph above if their values sum to a prime
+      number. Click on a node and drag to move it around, and double click it to
+      add it to the path.
+    </p>
   </body>
 </html>

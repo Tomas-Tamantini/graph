@@ -8,7 +8,7 @@
  * There are edges between two numbers if they sum to a prime
  * @param {*} max_num
  */
-function adjacent_primes(max_num) {
+function prime_pairs(max_num) {
   let nodes = radial_nodes(max_num)
   let edges = form_prime_connections(nodes)
   return new Graph(nodes, edges)
@@ -18,7 +18,7 @@ function radial_nodes(max_num) {
   let numbers_array = [...Array(max_num).keys()]
   return numbers_array.map(num => {
     let angle = (-1 / 2 + (2 * num) / max_num) * Math.PI
-    let radius = height / 3
+    let radius = Math.min(width / 3, height / 3)
     let position = {
       x: radius * Math.cos(angle) + width / 2,
       y: radius * Math.sin(angle) + height / 2,

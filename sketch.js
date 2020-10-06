@@ -3,7 +3,7 @@ function setup() {
   canvas.parent("sketch-holder")
   canvas.doubleClicked(mouseDoubleClicked)
 
-  graph = adjacent_primes(8)
+  let graph = prime_pairs(8)
   graph_ui = new GraphUI(graph)
 }
 
