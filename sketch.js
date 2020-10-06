@@ -3,7 +3,7 @@ function setup() {
   canvas.parent("sketch-holder")
   canvas.doubleClicked(mouseDoubleClicked)
 
-  input_handler = new InputHandler(change_max_number)
+  input_handler = new InputHandler(reset_graph_options)
   let graph = prime_pairs(9)
   graph_ui = new GraphUI(graph)
 }
@@ -26,8 +26,18 @@ function mouseDoubleClicked() {
   graph_ui.mouse_double_clicked()
 }
 
-function change_max_number() {
-  let value = input_handler.max_number
-  let graph = prime_pairs(value)
+function reset_graph_options() {
+  let max_num = input_handler.max_number
+  let option = input_handler.radio_value
+  let graph
+  switch (option) {
+    case OPTIONS.SQUARE_PAIRS:
+      graph = square_pairs(max_num)
+      break
+
+    default:
+      graph = prime_pairs(max_num)
+      break
+  }
   graph_ui = new GraphUI(graph)
 }

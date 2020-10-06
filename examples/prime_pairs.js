@@ -9,35 +9,10 @@
  * @param {*} max_num
  */
 function prime_pairs(max_num) {
-  let nodes = radial_nodes(max_num)
-  let edges = form_prime_connections(nodes)
-  return new Graph(nodes, edges)
-}
-
-function radial_nodes(max_num) {
-  let numbers_array = [...Array(max_num).keys()]
-  return numbers_array.map(num => {
-    let angle = (-1 / 2 + (2 * num) / max_num) * Math.PI
-    let radius = Math.min(width / 3, height / 3)
-    let position = {
-      x: radius * Math.cos(angle) + width / 2,
-      y: radius * Math.sin(angle) + height / 2,
-    }
-    return new Node(num + 1, position)
+  return ordered_nodes(max_num, (na, nb) => {
+    let sum = na.label + nb.label
+    return is_prime(sum)
   })
-}
-
-function form_prime_connections(nodes) {
-  let edges = []
-  for (let i = 0; i < nodes.length - 1; i++) {
-    let na = nodes[i]
-    for (let j = i + 1; j < nodes.length; j++) {
-      let nb = nodes[j]
-      let sum = na.label + nb.label
-      if (is_prime(sum)) edges.push(new Edge(na, nb))
-    }
-  }
-  return edges
 }
 
 function is_prime(number) {

@@ -1,5 +1,10 @@
+const OPTIONS = {
+  PRIME_PAIRS: "1",
+  SQUARE_PAIRS: "2",
+}
+
 class InputHandler {
-  constructor(sel_changed_callback) {
+  constructor(reset_graph_options) {
     this._input_position = { x: windowWidth / 50, y: windowHeight / 20 }
     this._text_size = 16
     this._sel = createSelect()
@@ -9,7 +14,17 @@ class InputHandler {
     )
     for (let i = 5; i <= 30; i++) this._sel.option(i)
     this._sel.selected(9)
-    this._sel.changed(sel_changed_callback)
+    this._sel.changed(reset_graph_options)
+
+    this._radio = createRadio()
+    this._radio.option("Prime pairs", OPTIONS.PRIME_PAIRS)
+    this._radio.option("Perfect square pairs", OPTIONS.SQUARE_PAIRS)
+    this._radio.position(
+      this._input_position.x + 12,
+      this._input_position.y + 30
+    )
+    this._radio.value("1")
+    this._radio.changed(reset_graph_options)
   }
 
   _prompt_width() {
@@ -30,5 +45,9 @@ class InputHandler {
 
   get max_number() {
     return parseInt(this._sel.value())
+  }
+
+  get radio_value() {
+    return this._radio.value()
   }
 }
