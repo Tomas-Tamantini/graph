@@ -4,6 +4,7 @@ body {
   flex-direction: column;
   justify-content: center;
   overflow-x: hidden;
+  padding-left: 1%;
   background-image: linear-gradient(to right, rgb(34, 37, 44), rgb(51, 56, 66));
   color: rgb(161, 179, 196);
 }
@@ -12,16 +13,22 @@ canvas {
 }
 a {
   color: rgb(61, 173, 173);
+  text-decoration: none;
 }
 a:link {
   color: rgb(61, 173, 173);
+  text-decoration: none;
 }
+
 a:visited {
   color: rgb(156, 80, 156);
+  text-decoration: none;
 }
 a:hover {
   color: rgb(185, 191, 196);
+  text-decoration: underline;
 }
 a:active {
   color: rgb(78, 78, 212);
+  text-decoration: underline;
 }
