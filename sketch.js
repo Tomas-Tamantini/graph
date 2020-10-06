@@ -1,8 +1,9 @@
 function setup() {
-  canvas = createCanvas(windowWidth, windowHeight)
+  canvas = createCanvas(windowWidth, (windowHeight * 2) / 3)
+  canvas.parent("sketch-holder")
   canvas.doubleClicked(mouseDoubleClicked)
 
-  graph = adjacent_primes(12)
+  graph = adjacent_primes(8)
   graph_ui = new GraphUI(graph)
 }
 
