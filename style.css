@@ -10,3 +10,18 @@ body {
 canvas {
   margin: auto;
 }
+a {
+  color: rgb(61, 173, 173);
+}
+a:link {
+  color: rgb(61, 173, 173);
+}
+a:visited {
+  color: rgb(156, 80, 156);
+}
+a:hover {
+  color: rgb(185, 191, 196);
+}
+a:active {
+  color: rgb(78, 78, 212);
+}

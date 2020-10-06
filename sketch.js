@@ -1,5 +1,5 @@
 function setup() {
-  canvas = createCanvas(windowWidth, (windowHeight * 2) / 3)
+  canvas = createCanvas(windowWidth, (windowHeight * 3) / 5)
   canvas.parent("sketch-holder")
   canvas.doubleClicked(mouseDoubleClicked)
 
